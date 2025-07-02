@@ -18,15 +18,16 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+    @PostMapping("/bulk")
+    public ResponseEntity<List<User>> createUsers(@Valid @RequestBody List<User> users) {
+        List<User> savedUsers = userRepository.saveAll(users);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUsers);
     }
 
-    @GetMapping
-    public List<User> getAllUser(){
-        return userRepository.findAll();
+    @GetMapping("/bulk")
+    public ResponseEntity<List<User>> getBulkUsers() {
+        List<User> users = userRepository.findAll();
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{id}")
