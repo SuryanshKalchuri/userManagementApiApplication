@@ -4,6 +4,9 @@ import com.example.usermanagementapi.model.User;
 import com.example.usermanagementapi.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +21,17 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+//    @PostMapping
+//    public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+//        User savedUser = userRepository.save(user);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+//    }
+//
+//    @GetMapping
+//    public List<User> getAllUser(){
+//        return userRepository.findAll();
+//    }
+
     @PostMapping("/bulk")
     public ResponseEntity<List<User>> createUsers(@Valid @RequestBody List<User> users) {
         List<User> savedUsers = userRepository.saveAll(users);
@@ -28,6 +42,11 @@ public class UserController {
     public ResponseEntity<List<User>> getBulkUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/page")
+    public Page<User> getUsers(Pageable pageable){
+        return userRepository.findAll(pageable);
     }
 
     @GetMapping("/{id}")
