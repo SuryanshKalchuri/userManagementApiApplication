@@ -41,6 +41,11 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping("/page")
+    public Page<User> getUsers(Pageable pageable){
+        return userRepository.findAll(pageable);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id){
         Optional<User> user = userRepository.findById(id);
