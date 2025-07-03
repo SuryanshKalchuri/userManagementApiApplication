@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDateTime;
 
 @Table(name = "users")
 @Entity
@@ -48,6 +52,26 @@ public class User {
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    @Column(name = "created_at", updatable = false)
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Column(name = "updated_at")
+    @UpdateTimestamp
+    private LocalDateTime udpdatedAt;
+    public LocalDateTime getUdpdatedAt() {
+        return udpdatedAt;
+    }
+    public void setUdpdatedAt(LocalDateTime udpdatedAt) {
+        this.udpdatedAt = udpdatedAt;
     }
 
 }
