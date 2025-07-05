@@ -46,4 +46,14 @@ public class UserRepositoryTest {
         Optional<User> foundUser = userRepository.findByEmail("nonexistent@example.com");
         assertThat(foundUser).isNotPresent();
     }
+
+    @Test
+    void testSaveUser(){
+        User newUser = new User("Charlie Chaplin", "charlie@example.com");
+        User savedUser = userRepository.save(newUser);
+        assertThat(savedUser).isNotNull();
+        assertThat(savedUser.getId()).isNotNull();
+        assertThat(savedUser.getName()).isEqualTo("Charlie Chaplin");
+        assertThat(savedUser.getEmail()).isEqualTo("charlie@example.com");
+    }
 }
