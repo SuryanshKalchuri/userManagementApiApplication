@@ -56,4 +56,26 @@ public class UserRepositoryTest {
         assertThat(savedUser.getName()).isEqualTo("Charlie Chaplin");
         assertThat(savedUser.getEmail()).isEqualTo("charlie@example.com");
     }
+
+    @Test
+    void testDeleteUser() {
+        User user = new User("Deleted User", "deleteUser@example.com");
+        User savedUser = userRepository.save(user);
+        assertThat(userRepository.findById(savedUser.getId())).isPresent();
+        userRepository.deleteById(savedUser.getId());
+        assertThat(userRepository.findById(savedUser.getId())).isNotPresent();
+    }
+
+    @Test
+    void testUpdateUser(){
+        String newName = "manoj reddy";
+        String newEmail = "manojReddy@gmail,com";
+        user3.setName(newName);
+        user3.setEmail(newEmail);
+        User updatedUser = userRepository.save(user3);
+        Optional<User> fetchedUser = userRepository.findById(updatedUser.getId());
+        assertThat(fetchedUser).isPresent();
+        assertThat(fetchedUser.get().getName()).isEqualTo("Updated Name");
+        assertThat(fetchedUser.get().getEmail()).isEqualTo("updated@example.com");
+    }
 }
